@@ -25,12 +25,12 @@ def parse(f) {
 	def startTime = 0L
 	f.eachLine { line ->
 		switch(line) {
-			case ~/(?m)^QueryStart[ ]+QUERY_STRING=.+/ :
+			case ~/(?m)^QueryStart\s+.+/ :
 				m = line =~ /(?m)^QueryStart\s+QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+TIME="(.+?)"/
 				startTime = Long.parseLong(m[0][3])
 			    break
-			case ~/(?m)^QueryEnd[ ]+QUERY_STRING=.+/ :
-				m = line =~ /(?m)^QueryEnd\s+QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+.+TIME="(.+?)"/
+			case ~/(?m)^QueryEnd\s+.+/ :
+				m = line =~ /(?m)^QueryEnd\s+.*QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+.+TIME="(.+?)"/
 				if (m.size() < 1 && m[0].size() < 4)
 					break
 				printf '         * %s | %10s | %s | %s\n', 
