@@ -26,7 +26,7 @@ class HiveJobParser {
 					sqlmd5 = MD5.md5(m[0][1])
 					//if (m.size() < 1 && m[0].size() < 4)
 					//	break
-					printf '         * %s | %10s | %s | %s\n', 
+					printf '         * %s | %10s + %s | %s\n', 
 							new java.text.SimpleDateFormat('HH:mm:ss').format(jobStartTime),
 	                        Long.parseLong(m[0][3]) - jobStartTime,
 							MD5.md5(m[0][1]),
@@ -46,13 +46,12 @@ class HiveJobParser {
 					def mm = line =~ /TASK_HADOOP_ID="(.+?)"/
 					def mm_m = line =~ /TASK_NUM_MAPPERS="(.+?)"/
 					def mm_r = line =~ /TASK_NUM_REDUCERS="(.+?)"/
-					printf '                      %10s | %s - %s (%s) (%s/%s)\n', 
+					printf '                      %10s | %s - %s %s %s\n', 
 	                        Long.parseLong(m[0][3]) - taskStartTime,
 	                        m[0][2],
-							m[0][1],
-							mm.size() > 0 ? mm[0][1] : '',
-							mm_m.size() > 0 ? mm_m[0][1] : '',
-							mm_r.size() > 0 ? mm_r[0][1] : ''
+							m[0][1].replace('org.apache.hadoop.hive.ql.exec.', ''),
+							mm.size() > 0 ? '(' + mm[0][1] + ')' : '',
+							mm_m.size() > 0 && mm_r.size() > 0 ? '(' + mm_m[0][1] + '/' + mm_r[0][1] + ')' : ''
 				    break
 				case ~/(?m)^.+=.+/ :
 					def m = line =~ /(?m)^(.+?)=.+/
