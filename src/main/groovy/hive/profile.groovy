@@ -16,7 +16,7 @@ files = files.sort({a,b -> a.lastModified() <=> b.lastModified()}) //.reverse()
 if (args.length == 0  || args[0] != '-all') {
 	println files.last()
 	files = [files.last()]
-} else if (args.legnth > 0 && args[0] =~ /^job_.+/) {
+} else if (args.length > 0 && args[0] =~ /^job_.+/) {
 	new File(HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').eachLine { line ->
 		println line
 		//tweets = new XmlSlurper().parseText(output)
