@@ -4,8 +4,9 @@ import util.MD5
 
 class HiveJobParser {
 	def parse(f) {
-		def queryMap = [:]
+		def queryMap = new LinkedHashMap()
 			
+		def sqlmd5
 		def jobStartTime = 0L
 		def taskStartTime = 0L
 		f.eachLine { line ->
@@ -15,10 +16,13 @@ class HiveJobParser {
 				 */
 				case ~/(?m)^QueryStart\s+.+/ :
 					def m = line =~ /(?m)^QueryStart\s+QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+TIME="(.+?)"/
+					sqlmd5 = MD5.md5(m[0][1])
 					jobStartTime = Long.parseLong(m[0][3])
+					//queryMap[sqlmd5] = { 'startTime' + }
 				    break
 				case ~/(?m)^QueryEnd\s+.+/ :
 					def m = line =~ /(?m)^QueryEnd\s+.*QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+.+TIME="(.+?)"/
+					sqlmd5 = MD5.md5(m[0][1])
 					//if (m.size() < 1 && m[0].size() < 4)
 					//	break
 					printf '         * %s | %10s | %s | %s\n', 
@@ -36,10 +40,10 @@ class HiveJobParser {
 					break
 				case ~/(?m)^TaskEnd\s+.+/ :
 					def m = line =~ /(?m)^TaskEnd\s+.*TASK_NAME="(.+?)"\s+.*TASK_ID="(.+?)"\s+.*TIME="(.+?)"/
-					printf '                      %10s | %s - %s\n', 
-	                        Long.parseLong(m[0][3]) - taskStartTime,
-	                        m[0][2],
-							m[0][1]
+					//printf '                      %10s | %s - %s\n', 
+	                //        Long.parseLong(m[0][3]) - taskStartTime,
+	                //        m[0][2],
+					//		m[0][1]
 				    break
 				case ~/(?m)^.+=.+/ :
 					def m = line =~ /(?m)^(.+?)=.+/
