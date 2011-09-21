@@ -1,8 +1,10 @@
+HIVE_LOG_DIR = "/tmp/" + System.getProperty('user.name')
+
 println '~'*100
 printf "%-19s | %10s | %-50s | \n", 'time', 'size', 'file'
 println '~'*100
 files = []
-["/tmp/bmchae"].each { dirname -> new File(dirname).eachFileRecurse { files += it } }
+[HIVE_LOG_DIR].each { dirname -> new File(dirname).eachFileRecurse { files += it } }
 files = files.sort({a,b -> a.lastModified() <=> b.lastModified()}) //.reverse()	
 
 files.each { f ->
