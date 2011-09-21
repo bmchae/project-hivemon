@@ -1,1 +1,1 @@
-groovy src/main/groovy/hive/profile.groovy $*
+groovy ~/hivemon/src/main/groovy/hive/profile.groovy $*

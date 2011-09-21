@@ -1,1 +1,1 @@
-groovy src/main/groovy/jarfind.groovy $*
+groovy ~/hivemon/src/main/groovy/jarfind.groovy $*
