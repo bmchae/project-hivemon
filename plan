@@ -1,0 +1,1 @@
+hive -f $1 | grep -v type: | grep -v 'outputColumnNames:' | grep -v 'sort order:'
