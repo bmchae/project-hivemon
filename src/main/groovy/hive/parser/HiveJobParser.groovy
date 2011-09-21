@@ -44,11 +44,15 @@ class HiveJobParser {
 					//println line
 					def m = line =~ /(?m)^TaskEnd\s+.*TASK_NAME="(.+?)"\s+.*TASK_ID="(.+?)"\s+.*TIME="(.+?)"/
 					def mm = line =~ /TASK_HADOOP_ID="(.+?)"/
-					printf '                      %10s | %s - %s - %s\n', 
+					def mm_m = line =~ /TASK_NUM_MAPPERS="(.+?)"/
+					def mm_r = line =~ /TASK_NUM_REDUCERS="(.+?)"/
+					printf '                      %10s | %s - %s (%s) (%s/%s)\n', 
 	                        Long.parseLong(m[0][3]) - taskStartTime,
 	                        m[0][2],
 							m[0][1],
-							mm.size() > 0 ? mm[0][1] : ''
+							mm.size() > 0 ? mm[0][1] : '',
+							mm_m.size() > 0 ? mm_m[0][1] : '',
+							mm_r.size() > 0 ? mm_r[0][1] : ''
 				    break
 				case ~/(?m)^.+=.+/ :
 					def m = line =~ /(?m)^(.+?)=.+/
