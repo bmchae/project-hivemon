@@ -9,6 +9,7 @@ class HiveJobParser {
 		def sqlmd5
 		def jobStartTime = 0L
 		def taskStartTime = 0L
+		
 		f.eachLine { line ->
 			switch(line) {
 				/**
@@ -39,15 +40,18 @@ class HiveJobParser {
 					taskStartTime = Long.parseLong(m[0][3])
 					break
 				case ~/(?m)^TaskEnd\s+.+/ :
-					def m = line =~ /(?m)^TaskEnd\s+.*TASK_NAME="(.+?)"\s+.*TASK_ID="(.+?)"\s+.*TIME="(.+?)"/
-					//printf '                      %10s | %s - %s\n', 
-	                //        Long.parseLong(m[0][3]) - taskStartTime,
-	                //        m[0][2],
-					//		m[0][1]
+					println '~'*100
+					println line
+					def m = line =~ /(?m)^TaskEnd\s+.*TASK_NAME="(.+?)"\s+.*TASK_ID="(.+?)"\s+.*(TASK_HADOOP_ID="(.+?)")?.*TIME="(.+?)"/
+					printf '                      %10s | %s - %s -%s\n', 
+	                        Long.parseLong(m[0][5]) - taskStartTime,
+	                        m[0][2],
+							m[0][1],
+							m[0][3]
 				    break
 				case ~/(?m)^.+=.+/ :
 					def m = line =~ /(?m)^(.+?)=.+/
-					//printf '                    . %s\n', m[0][1]
+					printf '                    . %s\n', m[0][1]
 					break
 				default:
 				    break
