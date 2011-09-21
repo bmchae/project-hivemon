@@ -7,11 +7,20 @@ class HiveJobParser {
 		def queryMap = new LinkedHashMap()
 			
 		def sqlmd5
+		def sessionStartTime = 0L
 		def jobStartTime = 0L
 		def taskStartTime = 0L
 		
 		f.eachLine { line ->
 			switch(line) {
+				/**
+				 * session
+				 */
+				case ~/^SessionStart.+/ :
+					def m = line =~ /^SessionStart.*"(.+?)".*/
+					sessionStartTime = Long.parseLong(m[0][1])
+					break
+				
 				/**
 				 * job
 				 */
