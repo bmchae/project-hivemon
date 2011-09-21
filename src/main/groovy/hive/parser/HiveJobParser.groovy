@@ -36,7 +36,7 @@ class HiveJobParser {
 					break
 				case ~/(?m)^TaskEnd\s+.+/ :
 					def m = line =~ /(?m)^TaskEnd\s+.*TASK_NAME="(.+?)"\s+.*TASK_ID="(.+?)"\s+.*TIME="(.+?)"/
-					printf '                    . %10s | %s - %s\n', 
+					printf '                      %10s | %s - %s\n', 
 	                        Long.parseLong(m[0][3]) - taskStartTime,
 	                        m[0][2],
 							m[0][1]
