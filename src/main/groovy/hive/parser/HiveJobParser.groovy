@@ -48,7 +48,7 @@ class HiveJobParser {
 	                        Long.parseLong(m[0][3]) - taskStartTime,
 	                        m[0][2],
 							m[0][1],
-							mm.size() > 0 ? mm[1] : ''
+							mm.size() > 0 ? mm[0] : ''
 				    break
 				case ~/(?m)^.+=.+/ :
 					def m = line =~ /(?m)^(.+?)=.+/
