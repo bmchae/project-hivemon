@@ -24,11 +24,20 @@ def parse(f) {
 	
 	def task = null
 		
+	def startTime = 0L
 	f.eachLine { line ->
 		switch(line) {
 			case ~/^QueryStart QUERY_STRING=.+/ :
 				m = line =~ /^QueryStart QUERY_STRING="(.+)"[ ]+QUERY_ID="(.+)"[ ]+TIME="(.+)"/
-				printf '         * %s | %s | %s\n', new java.text.SimpleDateFormat('HH:mm:ss').format(Long.parseLong(m[0][3])),
+				//printf '         * %s | %s | %s\n', new java.text.SimpleDateFormat('HH:mm:ss').format(Long.parseLong(m[0][3])),
+				//									md5(m[0][1]),
+				//                                    m[0][1].trim().substring(0, Math.min(50, m[0][1].trim().size()))
+				startTime = Long.parseLong(m[0][3])
+			    break
+			case ~/^QueryEnd QUERY_STRING=.+/ :
+				m = line =~ /^QueryEnd QUERY_STRING="(.+)"[ ]+QUERY_ID="(.+)"[ ]+TIME="(.+)"/
+				printf '         * %s | %10s | %s | %s\n', new java.text.SimpleDateFormat('HH:mm:ss').format(startTime),
+				                                    Long.parseLong(m[0][3]) - startTime,
 													md5(m[0][1]),
 				                                    m[0][1].trim().substring(0, Math.min(50, m[0][1].trim().size()))
 			    break
