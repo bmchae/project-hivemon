@@ -12,6 +12,11 @@ files = []
 [HIVE_LOG_DIR].each { dirname -> new File(dirname).eachFileRecurse { files += it } }
 files = files.sort({a,b -> a.lastModified() <=> b.lastModified()}) //.reverse()	
 
+if (args.length == 0  || args[0] != '-all') {
+	println files.last()
+	files = [files.last()]
+}
+
 files.each { f ->
 	if (!f.isDirectory() && f.getName() =~ /^hive_job_.*\.txt$/) {
 		println ''
