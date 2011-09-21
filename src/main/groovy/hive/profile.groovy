@@ -25,6 +25,9 @@ def parse(f) {
 	def startTime = 0L
 	f.eachLine { line ->
 		switch(line) {
+			case ~/^QueryStart.+/ :
+				println line[0..Math.min(100, line.size()-1)]
+				break
 			case ~/^QueryStart QUERY_STRING=.+/ :
 				m = line =~ /^QueryStart QUERY_STRING="([^\"]+)"[ ]+QUERY_ID="([^\"]+)"[ ]+TIME="([^\"]+)"/
 				//printf '         * %s | %s | %s\n', new java.text.SimpleDateFormat('HH:mm:ss').format(Long.parseLong(m[0][3])),
