@@ -25,19 +25,14 @@ def parse(f) {
 	def startTime = 0L
 	f.eachLine { line ->
 		switch(line) {
-			case ~/^QueryStart QUERY_STRING=.+/ :
-				m = line =~ /(?m)^QueryStart QUERY_STRING="([^\"]+)"[ ]+QUERY_ID="([^\"]+)"[ ]+TIME="([^\"]+)"/
-				//printf '         * %s | %s | %s\n', new java.text.SimpleDateFormat('HH:mm:ss').format(Long.parseLong(m[0][3])),
-				//									md5(m[0][1]),
-				//                                    m[0][1].trim().substring(0, Math.min(50, m[0][1].trim().size()))
+			case ~/(?m)^QueryStart[ ]+QUERY_STRING=.+/ :
+				m = line =~ /(?m)^QueryStart\s+QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+TIME="(.+?)"/
 				startTime = Long.parseLong(m[0][3])
-				//println 'start time : ' + startTime
 			    break
-			case ~/^QueryEnd QUERY_STRING=.+/ :
-				m = line =~ /(?m)^QueryEnd QUERY_STRING="([^\"]+)"[ ]+QUERY_ID="([^\"]+)"[ ]+.+TIME="([^\"]+)"/
+			case ~/(?m)^QueryEnd[ ]+QUERY_STRING=.+/ :
+				m = line =~ /(?m)^QueryEnd\s+QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+.+TIME="(.+?)"/
 				if (m.size() < 1 && m[0].size() < 4)
 					break
-				//println 'end   time : ' + m[0][3]
 				printf '         * %s | %10s | %s | %s\n', 
 						new java.text.SimpleDateFormat('HH:mm:ss').format(startTime),
                         Long.parseLong(m[0][3]) - startTime,
