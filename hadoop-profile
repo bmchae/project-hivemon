@@ -1,0 +1,1 @@
+groovy -cp ~/hivemon/src/main/groovy ~/hivemon/src/main/groovy/hadoop/profile.groovy $*

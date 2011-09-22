@@ -1,0 +1,15 @@
+netdev=eth0; # set this to the right network interface
+rx=0; tx=0;
+while sleep 1; do
+   /sbin/ifconfig $netdev | grep RX\ bytes | sed  's/.*RX bytes:\([0-9]\{1,\}\).*TX bytes:\([0-9]\{1,\}\).*/\1 \2/'>/tmp/rxtx;
+   newrx=`cut -f 1 -d\ < /tmp/rxtx`;
+   newtx=`cut -f 2 -d\ </tmp/rxtx;`;
+   rxps=$(($newrx - $rx));
+   txps=$(($newtx - $tx));
+   if [[ $rx != 0 ]] ;
+   then
+      echo -ne "$rxps $txps (RX TX)\n";
+   fi;
+   tx=$newtx;
+   rx=$newrx;
+done

@@ -1,0 +1,1 @@
+all "find ~/cdr/hadoop/hadoop/logs -mtime -1 -type f -name hadoop-nexr-* -exec cat {} \; | grep -E '(ERROR|FATAL)' | sort -k 2"

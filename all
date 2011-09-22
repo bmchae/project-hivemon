@@ -1,0 +1,17 @@
+i=1
+while [ $i -le 9 ]
+do
+    host=cnode$i
+    #echo "~~~~~~~~~~"
+    #echo "$host"
+    #echo "~~~~~~~~~"
+
+    #scp -r $FILE1 $host:$FILE1
+    #ssh $host $"${@// /\\ }" 2>&1 | sed "s/^/$host: /" &
+    #ssh $host "$*" &
+    ssh $host "$*" 2>&1 | sed "s/^/$host: /" &
+    #ssh $host "$*" 2>&1 | sed "s/^([0-9\-]+ [0-9:,]+)/%1 $host: /" &
+
+    i=`expr $i + 1`
+done
+wait
