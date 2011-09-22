@@ -23,7 +23,7 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	println '~'*100
 
 	params = [:]
-	conf = new XmlSlurper().parseText(new File(Config.HIVE_LOG_DIR + '/' + args[0] + '_conf.xml').text)
+	conf = new XmlSlurper().parseText(new File(Config.HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').text)
 	conf.property.each { prop ->
 		if (HadoopJobConfig.map[prop.name.text()] != null) {
 			params[prop.name.text()] = prop.value.text()
