@@ -24,7 +24,7 @@ class HadoopJobConfig {
 		map['hive.optimize.pruner'] = true
 		map['hive.optimize.skewjoin'] = false
 		map['hive.query.id'] = ''
-		//map['hive.query.string'] = ''
+		map['hive.query.string'] = ''
 		map['io.file.buffer.size'] = 4096
 		map['io.mapfile.bloom.size'] = 1048576
 		map['io.sort.factor'] = 10

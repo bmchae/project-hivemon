@@ -30,10 +30,13 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 		}
 	}
 	params.sort({it.key}).each { k, v ->
+		if (k != 'hive.query.string' && k != 'mapred.job.name')
 		printf "%60s : %s\n", v, k
 	}
 	
-	println ' hive.sql.string '.center(100, '~')
+	println ' mapred.job.name '.center(100, '~')
+	println params['mapred.job.name']
+	println ' hive.query.string '.center(100, '~')
 	println params['hive.query.string']
 	println '~' * 100
 }
