@@ -1,5 +1,7 @@
 .project
 .classpath
+derby.log
 test
 test.groovy
+
 

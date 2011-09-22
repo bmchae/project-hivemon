@@ -1,28 +1,34 @@
 package hive
 
 import hive.parser.HiveJobParser
+import config.Config
+import config.HadoopJobConfig
 
-
-HIVE_LOG_DIR = "/tmp/" + System.getProperty('user.name')
-HADOOP_LOG_DIR = System.getenv()['HADOOP_HOME'] + '/logs'
 
 println '~'*100
 printf "%-19s | %10s | %-50s | \n", 'time', 'size', 'file'
 println '~'*100
 files = []
-[HIVE_LOG_DIR].each { dirname -> new File(dirname).eachFileRecurse { files += it } }
+[Config.HIVE_LOG_DIR].each { dirname -> new File(dirname).eachFileMatch(~/^hive_job_log.+/) { files += it } }
 files = files.sort({a,b -> a.lastModified() <=> b.lastModified()}) //.reverse()	
 
 if (args.length == 0  || args[0] != '-all') {
-	println files.last()
+	println '>>> ' + files.last()
 	files = [files.last()]
-} else if (args.length > 0 && args[0] =~ /^job_.+/) {
-	new File(HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').eachLine { line ->
-		println line
-		//tweets = new XmlSlurper().parseText(output)
-		//tweets.status.each { tweet->
-		//	println "${tweet.user.name}: ${tweet.text}"
-		//}
+} 
+
+if (args.length > 0 && args[0] =~ /^job_.+/) {
+	println '~'*100
+	println 'parameters'
+	println '~'*100
+
+	conf = new XmlSlurper().parseText(new File(Config.HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').text)
+	//conf = conf.sort({a,b -> a.name <=> b.name})
+
+	conf.property.each { prop ->
+		if (HadoopJobConfig.map[prop.name.text()] != null) {
+			printf "%50s : %s\n", prop.name, prop.value
+		}
 	}
 }
 
