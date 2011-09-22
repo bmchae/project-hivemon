@@ -32,6 +32,10 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	params.sort({it.key}).each { k, v ->
 		printf "%60s : %s\n", v, k
 	}
+	
+	println ' hive.sql.string '.center(100, '~')
+	println params['hive.query.string']
+	println '~' * 100
 }
 
 
