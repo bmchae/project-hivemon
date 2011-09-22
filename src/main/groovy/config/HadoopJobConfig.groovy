@@ -36,6 +36,7 @@ class HadoopJobConfig {
 		map['mapred.job.reuse.jvm.num.tasks'] = 1
 		map['mapred.map.max.attempts'] = 4
 		map['mapred.map.tasks'] = 2
+		map['mapred.reduce.tasks'] = 2
 		map['mapred.min.split.size'] = 0
 		map['mapred.output.compress'] = false
 		map['mapred.reduce.parallel.copies'] = 5

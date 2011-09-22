@@ -22,13 +22,15 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	println 'parameters'
 	println '~'*100
 
+	params = [:]
 	conf = new XmlSlurper().parseText(new File(Config.HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').text)
-	//conf = conf.sort({a,b -> a.name <=> b.name})
-
 	conf.property.each { prop ->
 		if (HadoopJobConfig.map[prop.name.text()] != null) {
-			printf "%60s : %s\n", prop.value, prop.name
+			params[prop.name.text()] = prop.value.text()
 		}
+	}
+	params.sort({it.key}).each { k, v ->
+		printf "%60s : %s\n", v, k
 	}
 }
 
