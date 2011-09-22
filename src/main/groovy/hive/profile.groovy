@@ -27,7 +27,7 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 
 	conf.property.each { prop ->
 		if (HadoopJobConfig.map[prop.name.text()] != null) {
-			printf "%50s : %s\n", prop.name, prop.value
+			printf "%60s : %s\n", prop.value, prop.name
 		}
 	}
 }
