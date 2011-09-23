@@ -3,18 +3,17 @@
 #
 
 usage="Usage: all [--config confdir] command..."
-
 if [ $# -le 0 ]; then
     echo $usage
     exit 1
 fi
 
-export MASTERLIST="${HADOOP_HOME}/conf/master"
-export SLAVESLIST="${HADOOP_HOME}/conf/slaves"
+export MASTERLIST="${HADOOP_HOME}/conf/masters"
+export SLAVELIST="${HADOOP_HOME}/conf/slaves"
 
-for slave in `cat "$MASTERLIST" "$SLAVESLIST" | sed "s/#.*$//;/^$/d"`; do
+for slave in `cat "$MASTERLIST" "$SLAVELIST" | sed "s/#.*$//;/^$/d"`; do
     #ssh $HADOOP_SSH_OPTS $slave $"${@// /\\ }" 2>&1 | sed "s/^/$slave: /" &
-    ssh $HADOOP_SSH_OPTS $slave "$*" 2>&1 | sed "s/^/$slave: /" &
+    ssh $HADOOP_SSH_OPTS $slave ". ./.bash_profile; $*" 2>&1 | sed "s/^/$slave: /" & 
    
     if [ "$HADOOP_SLAVE_SLEEP" != "" ]; then
         sleep $HADOOP_SLAVE_SLEEP
