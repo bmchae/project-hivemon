@@ -9,10 +9,10 @@ if [ $# -le 0 ]; then
     exit 1
 fi
 
-export HOSTLIST="${HADOOP_HOME}/conf/slaves"
+export MASTERLIST="${HADOOP_HOME}/conf/master"
+export SLAVESLIST="${HADOOP_HOME}/conf/slaves"
 
-
-for slave in `cat "$HOSTLIST"|sed  "s/#.*$//;/^$/d"`; do
+for slave in `cat "$MASTERLIST" "$SLAVESLIST" | sed "s/#.*$//;/^$/d"`; do
     #ssh $HADOOP_SSH_OPTS $slave $"${@// /\\ }" 2>&1 | sed "s/^/$slave: /" &
     ssh $HADOOP_SSH_OPTS $slave "$*" 2>&1 | sed "s/^/$slave: /" &
    
