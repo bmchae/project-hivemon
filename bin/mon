@@ -1,1 +1,1 @@
- groovy -cp ~/hivemon/src/main/groovy ~/hivemon/src/main/groovy/hadoop/monitory/monitor.groovy $*
+ groovy -cp ~/hivemon/src/main/groovy ~/hivemon/src/main/groovy/hadoop/monitor/monitor.groovy $*

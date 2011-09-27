@@ -12,8 +12,12 @@ export MASTERLIST="${HADOOP_HOME}/conf/masters"
 export SLAVELIST="${HADOOP_HOME}/conf/slaves"
 
 for slave in `cat "$MASTERLIST" "$SLAVELIST" | sed "s/#.*$//;/^$/d"`; do
-    #ssh $HADOOP_SSH_OPTS $slave $"${@// /\\ }" 2>&1 | sed "s/^/$slave: /" &
-    ssh $HADOOP_SSH_OPTS $slave ". ./.bash_profile; $*" 2>&1 | sed "s/^/$slave: /" & 
+    if [ -f "~/.bash_profile" ]; then
+        #ssh $HADOOP_SSH_OPTS $slave $"${@// /\\ }" 2>&1 | sed "s/^/$slave: /" &
+        ssh $HADOOP_SSH_OPTS $slave ". ~/.bash_profile; $*" 2>&1 | sed "s/^/$slave: /" & 
+    else
+        ssh $HADOOP_SSH_OPTS $slave ". ~/.profile; $*" 2>&1 | sed "s/^/$slave: /" & 
+    fi
    
     if [ "$HADOOP_SLAVE_SLEEP" != "" ]; then
         sleep $HADOOP_SLAVE_SLEEP
