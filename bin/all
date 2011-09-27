@@ -12,7 +12,8 @@ export MASTERLIST="${HADOOP_HOME}/conf/masters"
 export SLAVELIST="${HADOOP_HOME}/conf/slaves"
 
 for slave in `cat "$MASTERLIST" "$SLAVELIST" | sed "s/#.*$//;/^$/d"`; do
-    if [ -f "~/.bash_profile" ]; then
+    #if [ -f "~/.bash_profile" ]; then
+    if [ `uname -s` = 'Linux' ]; then
         #ssh $HADOOP_SSH_OPTS $slave $"${@// /\\ }" 2>&1 | sed "s/^/$slave: /" &
         ssh $HADOOP_SSH_OPTS $slave ". ~/.bash_profile; $*" 2>&1 | sed "s/^/$slave: /" & 
     else
