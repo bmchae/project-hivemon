@@ -31,10 +31,10 @@ echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 hadoop fs -ls /user/nexr/hive/warehouse/symlink_file
 
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo $ cat  ~/report/cronjob.sql
-echo $ hive -f ~/report/cronjob.sql
+echo $ cat  ~/hivemon/src/main/cron/integration/cronjob.sql
+echo $ hive -f ~/hivemon/src/main/cron/integration/cronjob.sql
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cat ~/report/cronjob.sql
+cat ~/hivemon/src/main/cron/integration/cronjob.sql
 echo
-hive -f ~/report/cronjob.sql
+hive -f ~/hivemon/src/main/cron/integration/cronjob.sql
 
