@@ -62,6 +62,14 @@ class HiveJobParser {
 							mm.size() > 0 ? '(' + mm[0][1] + ')' : '',
 							mm_m.size() > 0 && mm_r.size() > 0 ? '(' + mm_m[0][1] + '/' + mm_r[0][1] + ')' : ''
 				    break
+				case ~/(?m)^TaskProgress\s+.+/ :
+					def m = line =~ /(?m)^TaskProgress\s+.*TASK_HADOOP_PROGRESS="(.+?)"\s+.*TASK_NAME="(.+?)"\s+.*TASK_COUNTERS="(.+?)"/
+					printf '                                 . %s\n', m[0][1]
+					def mm = m[0][3] =~ /,(.+?):([0-9]+)/
+					mm.each { mmm ->
+						printf '%s%10s = %s\n', ' '*40, mmm[2], mmm[1] 
+					}
+					break
 				case ~/(?m)^.+=.+/ :
 					def m = line =~ /(?m)^(.+?)=.+/
 					//printf '                    . %s\n', m[0][1]

@@ -9,6 +9,7 @@ class HadoopJobConfig {
 		map['dfs.datanode.handler.count'] = 3
 		map['dfs.namenode.handler.count'] = 2
 		map['dfs.replication'] = 3
+		map['hive.auto.convert.join'] = true
 		map['hive.exec.compress.intermediate'] = false
 		map['hive.exec.compress.output'] = false
 		map['hive.exec.dynamic.partition'] = false
@@ -17,6 +18,7 @@ class HadoopJobConfig {
 		map['hive.exec.reducers.max'] = 999
 		map['hive.input.format'] = 'org.apache.hadoop.hive.ql.io.HiveInputFormat'
 		map['hive.mapjoin.maxsize'] = true
+		map['hive.mapjoin.smalltable.filesize'] = 25000000
 		map['hive.mapred.reduce.tasks.speculative.execution'] = true
 		map['hive.optimize.cp'] = true
 		map['hive.optimize.groupby'] = true
