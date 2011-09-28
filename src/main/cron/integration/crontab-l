@@ -1,0 +1,6 @@
+# dpi-hive-symlink (Brandon, brandon.kim@nexr.com)
+0 1 * * * /home/nexr/nexr_platforms/workflow/scripts/dpi-hive-symlink.sh 2>1& > /home/nexr/nexr_platforms/workflow/logs/dpi-hive-symlink.log
+
+# integration check
+0 7 * * * /home/nexr/hivemon/src/main/cron/integration/cronjob.sh 2>&1 | mail -s 'Daily Report - Integration Server Report' peter.chae@nexr.com,jun.cho@nexr.com,ryan.han@nexr.com,steve.kwak@nexr.com,klaus.jung@nexr.com,erica.park@nexr.com
+
