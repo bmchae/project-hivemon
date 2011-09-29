@@ -67,7 +67,7 @@ class HiveJobParser {
 					printf '                                 . %s\n', m[0][1]
 					def mm = m[0][3] =~ /,(.+?):([0-9]+)/
 					mm.each { mmm ->
-						printf '%s%10s = %s\n', ' '*40, mmm[2], mmm[1] 
+						printf '%s%20s = %s\n', ' '*30, mmm[2], mmm[1] 
 					}
 					break
 				case ~/(?m)^.+=.+/ :

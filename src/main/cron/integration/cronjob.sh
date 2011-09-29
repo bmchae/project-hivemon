@@ -36,5 +36,5 @@ echo $ hive -f ~/hivemon/src/main/cron/integration/cronjob.sql
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cat ~/hivemon/src/main/cron/integration/cronjob.sql
 echo
-hive -f ~/hivemon/src/main/cron/integration/cronjob.sql
+hive -f ~/hivemon/src/main/cron/integration/cronjob.sql --hiveconf param.today=`date +%Y-%m-%d`
 
