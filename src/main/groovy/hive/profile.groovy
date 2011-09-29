@@ -39,8 +39,17 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	
 	println ' mapred.job.name '.center(100, '~')
 	println params['mapred.job.name']
+	
 	println ' hive.query.string '.center(100, '~')
 	println params['hive.query.string']
+	println '~' * 100
+	
+	def p = "hive -e 'explain ${params['hive.query.string']};' 2>&1".execute()
+	p.waitFor()
+	def output = p.in.text
+	println ' plan '.center(100, '~')
+	println "hive -e 'explain ${params['hive.query.string']};' 2>&1"
+	println output
 	println '~' * 100
 }
 
