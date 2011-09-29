@@ -79,11 +79,15 @@ class HiveJobParser {
 					printf '                                 . %s\n', m[0][1]
 					def mm = m[0][3] =~ /,(.+?):([0-9]+)/
 					mm.each { mmm ->
+						if (mmm[2] =~ /"([0-9]+)"/) {
+							mmm[2] = (mmm[2] =~ /"([0-9]+)"/)[0][1]
+						}
+						
 						if (counterMap[mmm[1]] == null) {
 							counterMap[mmm[1]] = 0
 						}
 						
-						printf '%s%20s = %s\n', ' '*30, counterMap[mmm[1]] - Integer.parseInt(mmm[2]), mmm[1]
+						printf '%s%20s = %s\n', ' '*30, Integer.parseInt(mmm[2]) - counterMap[mmm[1]], mmm[1]
 						
 						counterMap[mmm[1]] = Integer.parseInt(mmm[2])
 					}
