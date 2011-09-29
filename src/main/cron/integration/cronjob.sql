@@ -5,7 +5,8 @@ add jar file:///home/nexr/nexr_platforms/flume/flume/lib/collector-event-1.0.0.1
 
 SELECT dt, count(*) cnt
 FROM wireless_voice_log
-WHERE dt > date_sub(from_unixtime(unix_timestamp(), 'yyyy-MM-dd'), 8)
+--WHERE dt > date_sub(from_unixtime(unix_timestamp(), 'yyyy-MM-dd'), 8)
+WHERE dt > date_sub('${hiveconf:param.today}', 8)
 GROUP BY dt
 ORDER BY dt;
 --HAVING dt > date_sub(from_unixtime(unix_timestamp(), 'yyyy-MM-dd'), 8);
