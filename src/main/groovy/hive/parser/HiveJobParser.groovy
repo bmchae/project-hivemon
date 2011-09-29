@@ -83,9 +83,9 @@ class HiveJobParser {
 							counterMap[mmm[1]] = 0
 						}
 						
-						printf '%s%20s = %s\n', ' '*30, counterMap[mmm[1]] - mmm[2], mmm[1]
+						printf '%s%20s = %s\n', ' '*30, counterMap[mmm[1]] - Integer.parseInt(mmm[2]), mmm[1]
 						
-						counterMap[mmm[1]] = mmm[2]
+						counterMap[mmm[1]] = Integer.parseInt(mmm[2])
 					}
 					break
 				case ~/(?m)^.+=.+/ :
