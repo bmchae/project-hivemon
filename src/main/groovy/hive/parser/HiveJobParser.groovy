@@ -82,14 +82,13 @@ class HiveJobParser {
 						if (mmm[2] =~ /"([0-9]+)"/) {
 							mmm[2] = (mmm[2] =~ /"([0-9]+)"/)[0][1]
 						}
-						
 						if (counterMap[mmm[1]] == null) {
-							counterMap[mmm[1]] = 0
+							counterMap[mmm[1]] = 0L
 						}
 						
-						printf '%s%20s = %s\n', ' '*30, Integer.parseInt(mmm[2]) - counterMap[mmm[1]], mmm[1]
+						printf '%s%20s = %s\n', ' '*30, Long.parseLong(mmm[2]) - counterMap[mmm[1]], mmm[1]
 						
-						counterMap[mmm[1]] = Integer.parseInt(mmm[2])
+						counterMap[mmm[1]] = Integer.parseLong(mmm[2])
 					}
 					break
 				case ~/(?m)^.+=.+/ :
