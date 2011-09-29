@@ -32,7 +32,7 @@ hadoop fs -ls /user/nexr/hive/warehouse/symlink_file
 
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 echo $ cat  ~/hivemon/src/main/cron/integration/cronjob.sql
-echo $ hive -f ~/hivemon/src/main/cron/integration/cronjob.sql
+echo $ hive -f ~/hivemon/src/main/cron/integration/cronjob.sql --hiveconf param.today=`date +%Y-%m-%d`
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 cat ~/hivemon/src/main/cron/integration/cronjob.sql
 echo
