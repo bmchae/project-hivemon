@@ -5,6 +5,9 @@ import config.Config
 import config.HadoopJobConfig
 
 
+verbose = false
+
+
 println '~'*100
 printf "%-19s | %10s | %-50s | \n", 'time', 'size', 'file'
 println '~'*100
@@ -19,6 +22,10 @@ if (args.length == 0  || args[0] != '-all') {
 			files = [files.last()]
 	}
 } 
+
+if (args.length > 0  && args[0] == '-v') {
+	verbose = true;
+}
 
 if (args.length > 0 && args[0] =~ /^job_.+/) {
 	println '~'*100
@@ -44,6 +51,8 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	println params['hive.query.string']
 	println '~' * 100
 	
+	
+	
 	def p = "hive -e 'explain ${params['hive.query.string']};' 2>&1".execute()
 	p.waitFor()
 	def output = p.in.text
@@ -64,6 +73,6 @@ files.each { f ->
 		printf '%-19s | %10s | %-50s | \n', new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').format(new Date(f.lastModified())), 
 		                                   f.lastModified() - sessionStartTime, 
 										   f.getName()
-		new HiveJobParser().parse(f)
+		new HiveJobParser().parse(f, verbose)
 	}
 }

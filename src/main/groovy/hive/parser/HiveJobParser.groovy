@@ -3,7 +3,7 @@ package hive.parser
 import util.MD5
 
 class HiveJobParser {
-	def parse(f) {
+	def parse(f, verbose) {
 		def queryMap = new LinkedHashMap()
 			
 		def sqlmd5
@@ -75,8 +75,13 @@ class HiveJobParser {
 							outputRecords
 				    break
 				case ~/(?m)^TaskProgress\s+.+/ :
+						
 					def m = line =~ /(?m)^TaskProgress\s+.*TASK_HADOOP_PROGRESS="(.+?)"\s+.*TASK_NAME="(.+?)"\s+.*TASK_COUNTERS="(.+?)"/
 					printf '                                 . %s\n', m[0][1]
+
+					if (!verbose)
+						break
+
 					def mm = m[0][3] =~ /,(.+?):([0-9]+)/
 					mm.each { mmm ->
 						if (mmm[2] =~ /"([0-9]+)"/) {
