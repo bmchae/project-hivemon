@@ -11,8 +11,8 @@ output.eachLine { line ->
 		pp.waitFor()
 		
 		println " ${m[0][1]} - ${m[0][2]} ".center(100, '~')
-		def m = (pp.in.text =~ /(?m)^"main"(.+?)\n/)
-		if (m.size() > 0)
-			println m[0]
+		def mm = (pp.in.text =~ /(?m)^"main"(.+?)\n/)
+		if (mm.size() > 0)
+			println mm[0]
 	}
 }
