@@ -9,6 +9,8 @@ output.eachLine { line ->
 			jps[m[0][1]] = []
 		def pp = "ssh nexr@${m[0][1]} jstack ${m[0][2]}".execute()
 		pp.waitFor()
-		println pp.in.text
+		
+		println " ${m[0][1]} - ${m[0][2]} ".center(100, '~')
+		println (pp.in.text =~ /(?m)^"main"(.+?)^\n/)[0][0]
 	}
 }
