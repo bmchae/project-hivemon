@@ -13,7 +13,7 @@ output.eachLine { line ->
 	    case '' :
 			break
 	    case 'Child' :
-			jps[m[0][1]] << ' Task(' + m[0][2] + ')'
+			jps[m[0][1]] << '<' + m[0][2] + '>'
 		    break
 		default :
 		    jps[m[0][1]] << m[0][3]
