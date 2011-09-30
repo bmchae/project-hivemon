@@ -63,7 +63,7 @@ class HiveJobParser {
 					def inputRecords = (line =~ /input records:([0-9]+)/).size() > 0 ? (line =~ /input records:([0-9]+)/)[0][1] : 0
 					def outputRecords = (line =~ /output records:([0-9]+)/).size() > 0 ? (line =~ /output records:([0-9]+)/)[0][1] : 0
 
-					printf '                      %10s | %s - %s %s %s, hdfs_bytes_read=%s, hdfs_bytes_written=%s, input_records=%s, output_records=%s\n', 
+					printf '                      %10s | %s - %s %s %s, hdfs_r=%s, hdfs_w=%s, input_rec=%s, output_rec=%s\n', 
 	                        Long.parseLong(m[0][3]) - taskStartTime,
 	                        m[0][2],
 							m[0][1].replace('org.apache.hadoop.hive.ql.exec.', ''),
@@ -76,11 +76,11 @@ class HiveJobParser {
 				    break
 				case ~/(?m)^TaskProgress\s+.+/ :
 						
-					def m = line =~ /(?m)^TaskProgress\s+.*TASK_HADOOP_PROGRESS="(.+?)"\s+.*TASK_NAME="(.+?)"\s+.*TASK_COUNTERS="(.+?)"/
-					printf '                                 . %s\n', m[0][1]
-
 					if (!verbose)
 						break
+
+					def m = line =~ /(?m)^TaskProgress\s+.*TASK_HADOOP_PROGRESS="(.+?)"\s+.*TASK_NAME="(.+?)"\s+.*TASK_COUNTERS="(.+?)"/
+					printf '                                 . %s\n', m[0][1]
 
 					def mm = m[0][3] =~ /,(.+?):([0-9]+)/
 					mm.each { mmm ->

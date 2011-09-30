@@ -36,12 +36,14 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	conf = new XmlSlurper().parseText(new File(Config.HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').text)
 	conf.property.each { prop ->
 		if (HadoopJobConfig.map[prop.name.text()] != null) {
+			params[prop.name.text() + ' (*)'] = prop.value.text()
+		} else {
 			params[prop.name.text()] = prop.value.text()
 		}
 	}
 	params.sort({it.key}).each { k, v ->
 		if (k != 'hive.query.string' && k != 'mapred.job.name')
-		printf "%60s : %s\n", v, k
+			printf "%60s : %s\n", v, k
 	}
 	
 	println ' mapred.job.name '.center(100, '~')
