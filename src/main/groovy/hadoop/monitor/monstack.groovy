@@ -11,16 +11,14 @@ output.eachLine { line ->
 
 		println " ${m[0][1]} | ${m[0][3]} - ${m[0][2]} ".center(100, '~')
 
-		def pp = "ssh nexr@${m[0][1]} jstack ${m[0][2]} 2>&1".execute()
+		def pp = "ssh nexr@${m[0][1]} '. ~/.bash_profile; jstack ${m[0][2]} 2>&1'".execute()
 		//def pp = "jstack ${m[0][2]}".execute()
 		pp.waitFor()
 		
-		println pp.in.text
-		
 		//def mm = (pp.in.text =~ /(?m)"main"(.+?)^$/)
-		//def mm = java.util.regex.Pattern.compile(/(?m)"main"(.+?)^$/, java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL).matcher(pp.in.text)
+		def mm = java.util.regex.Pattern.compile(/(?m)"main"(.+?)^$/, java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL).matcher(pp.in.text)
 
-		//if (mm.size() > 0)
-		//	println mm[0][0]
+		if (mm.size() > 0)
+			println mm[0][0]
 	}
 }
