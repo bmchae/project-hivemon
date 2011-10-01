@@ -1,2 +1,2 @@
  groovy -cp ~/hivemon/src/main/groovy ~/hivemon/src/main/groovy/hadoop/monitor/monstack.groovy $*
- #allsync "jps | grep Child | awk '{print $1}' | xargs jstack"
+ #allsync "jps | grep -E '(Child|Tracker|Node)' | awk '{print $1}' | xargs jstack"
