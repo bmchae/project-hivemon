@@ -8,7 +8,8 @@ output.eachLine { line ->
 	if (m.size() > 0 && m[0].size() > 3) {
 		if (jps[m[0][1]] == null)
 			jps[m[0][1]] = []
-		def pp = "ssh nexr@${m[0][1]} jstack ${m[0][2]}".execute()
+		//def pp = "ssh nexr@${m[0][1]} jstack ${m[0][2]}".execute()
+		def pp = "jstack ${m[0][2]}".execute()
 		pp.waitFor()
 		
 		println " ${m[0][1]} | ${m[0][3]} - ${m[0][2]} ".center(100, '~')
