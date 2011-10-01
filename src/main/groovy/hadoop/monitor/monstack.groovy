@@ -1,5 +1,5 @@
 //def p = """all jps | grep Child""".execute()
-def p = """all jps | grep -E '(Child|Tracker)'""".execute()
+def p = """all jps | grep -E '(RunJar|Child|Tracker)'""".execute()
 p.waitFor()
 def output = p.in.text
 def jps = [:]
