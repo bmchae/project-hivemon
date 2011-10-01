@@ -1,0 +1,12 @@
+for pid in `jps | grep -E '(RunJar|Child|Node|Tracker)' | awk '{print $1}'`; do
+	echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+	echo $pid
+	echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+	if [ $1 = '-v' ]; then
+	    jstack $pid
+	else
+	    jstack $pid | grep -E '^".+' | sed 's/ prio.*$//'
+	fi
+done
+
+wait

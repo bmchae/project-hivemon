@@ -76,12 +76,15 @@ class HiveJobParser {
 				    break
 				case ~/(?m)^TaskProgress\s+.+/ :
 						
-					if (!verbose)
+					if (verbose < 1)
 						break
 
 					def m = line =~ /(?m)^TaskProgress\s+.*TASK_HADOOP_PROGRESS="(.+?)"\s+.*TASK_NAME="(.+?)"\s+.*TASK_COUNTERS="(.+?)"/
 					printf '                                 . %s\n', m[0][1]
 
+					if (verbose < 2)
+						break
+						
 					def mm = m[0][3] =~ /,(.+?):([0-9]+)/
 					mm.each { mmm ->
 						if (mmm[2] =~ /"([0-9]+)"/) {

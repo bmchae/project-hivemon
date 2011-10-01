@@ -1,0 +1,18 @@
+#
+# copied from $HADOOP_HOME/bin/slaves.sh
+#
+
+usage="Usage: one [--config confdir] command..."
+if [ $# -le 0 ]; then
+    echo $usage
+    exit 1
+fi
+
+if [ `uname -s` = 'Linux' ]; then
+    #ssh $HADOOP_SSH_OPTS $slave $"${@// /\\ }" 2>&1 | sed "s/^/$slave: /" &
+    ssh $HADOOP_SSH_OPTS $1 ". ~/.bash_profile; $2" 2>&1 | sed "s/^/$slave: /" & 
+else
+    ssh $HADOOP_SSH_OPTS $1 ". ~/.profile; $2" 2>&1 | sed "s/^/$slave: /" & 
+fi
+
+wait

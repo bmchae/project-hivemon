@@ -5,7 +5,7 @@ import config.Config
 import config.HadoopJobConfig
 
 
-verbose = false
+verbose = 0
 
 
 println '~'*100
@@ -23,8 +23,11 @@ if (args.length == 0  || args[0] != '-all') {
 	}
 } 
 
-if (args.length > 0  && args[0] == '-v') {
-	verbose = true;
+if (args.length > 0) {
+	if (args[0] == '-v')
+		verbose = 1
+	else if (args[0] == '-vv')
+	    verbose = 2
 }
 
 if (args.length > 0 && args[0] =~ /^job_.+/) {
@@ -35,15 +38,15 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	params = [:]
 	conf = new XmlSlurper().parseText(new File(Config.HADOOP_LOG_DIR + '/' + args[0] + '_conf.xml').text)
 	conf.property.each { prop ->
-		if (HadoopJobConfig.map[prop.name.text()] != null) {
-			params[prop.name.text() + ' (*)'] = prop.value.text()
-		} else {
-			params[prop.name.text()] = prop.value.text()
-		}
+		params[prop.name.text()] = prop.value.text()
 	}
 	params.sort({it.key}).each { k, v ->
-		if (k != 'hive.query.string' && k != 'mapred.job.name')
-			printf "%60s : %s\n", v, k
+		if (k != 'hive.query.string' && k != 'mapred.job.name') {
+			if (HadoopJobConfig.map[k] != null)
+				printf "%60s * %s\n", v, k
+			else
+				printf "%60s : %s\n", v, k
+		}
 	}
 	
 	println ' mapred.job.name '.center(100, '~')
@@ -54,13 +57,17 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	println '~' * 100
 	
 	
-	
-	def p = "hive -e 'explain ${params['hive.query.string']};' 2>&1".execute()
+	def f = File.createTempFile("hive", ".sql")
+    f.deleteOnExit()
+	f << 'explain \n' << params['hive.query.string'] << ';'
+	//println "hive -f ${f.getPath()} 2>&1"
+	def p = "hive -f ${f.getPath()}".execute()
 	p.waitFor()
-	def output = p.in.text
+	def plan = p.in.text
 	println ' plan '.center(100, '~')
-	println "hive -e 'explain ${params['hive.query.string']};' 2>&1"
-	println output
+	//println f.text
+	//println '.' * 100
+	println plan.replaceAll(/\n\s+expr:(.*?)/, '').replaceAll(/\n\s+type:(.*?)/, '')
 	println '~' * 100
 }
 
