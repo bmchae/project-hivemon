@@ -12,6 +12,7 @@ output.eachLine { line ->
 		println " ${m[0][1]} | ${m[0][3]} - ${m[0][2]} ".center(100, '~')
 
 		def pp = "ssh ${m[0][1]} \". ~/.bash_profile; jstack ${m[0][2]} 2>&1\"".execute()
+		def pp = "ssh ${m[0][1]} \". ~/.bash_profile; jps\"".execute()
 		//def pp = "jstack ${m[0][2]}".execute()
 		pp.waitFor()
 		println pp.in.text
