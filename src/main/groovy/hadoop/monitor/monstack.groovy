@@ -24,6 +24,8 @@ output.eachLine { line ->
 			mm.each { mmm ->
 				if (mmm[0] =~ /^"main".+/)
 					println mmm[0]
+				if (mmm[0] =~ /nexr/)
+					println mmm[0]
 			}
 		}
 	}
