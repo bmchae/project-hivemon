@@ -1,5 +1,5 @@
 //def p = """all jps | grep Child""".execute()
-def p = """all jps | grep Tracker""".execute()
+def p = """allsync jps | grep Tracker""".execute()
 p.waitFor()
 def output = p.in.text
 def jps = [:]
@@ -13,7 +13,7 @@ output.eachLine { line ->
 		
 		println " ${m[0][1]} - ${m[0][2]} ".center(100, '~')
 		//def mm = (pp.in.text =~ /"main"(.+?)^$/)
-		def mm = java.util.regex.Pattern.compile(/"main"(.+?)^$/, java.util.regex.Pattern.MULTILINE).matcher(pp.in.text)
+		def mm = java.util.regex.Pattern.compile(/"main"(.+?)\r?\n/, java.util.regex.Pattern.MULTILINE).matcher(pp.in.text)
 
 		if (mm.size() > 0)
 			println mm[0]
