@@ -1,5 +1,5 @@
 //def p = """all jps | grep Child""".execute()
-def p = """all jps | grep TaskTracker""".execute()
+def p = """all jps | grep -E '(Child|Tracker|Node)'""".execute()
 p.waitFor()
 def output = p.in.text
 def jps = [:]
@@ -11,7 +11,7 @@ output.eachLine { line ->
 		def pp = "ssh nexr@${m[0][1]} jstack ${m[0][2]}".execute()
 		pp.waitFor()
 		
-		println " ${m[0][1]} - ${m[0][2]} ".center(100, '~')
+		println " ${m[0][1]} | ${m[0][3]} - ${m[0][2]} ".center(100, '~')
 		//def mm = (pp.in.text =~ /(?m)"main"(.+?)^$/)
 		def mm = java.util.regex.Pattern.compile(/(?m)"main"(.+?)^$/, java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL).matcher(pp.in.text)
 
