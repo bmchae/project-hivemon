@@ -12,8 +12,8 @@ output.eachLine { line ->
 		pp.waitFor()
 		
 		println " ${m[0][1]} - ${m[0][2]} ".center(100, '~')
-		//def mm = (pp.in.text =~ /"main"(.+?)^$/)
-		def mm = java.util.regex.Pattern.compile(/"main"(.+?)\r?\n/, java.util.regex.Pattern.MULTILINE).matcher(pp.in.text)
+		def mm = (pp.in.text =~ /"main"(.+?)\r?\n/)
+		//def mm = java.util.regex.Pattern.compile(/"main"(.+?)\r?\n/, java.util.regex.Pattern.MULTILINE).matcher(pp.in.text)
 
 		if (mm.size() > 0)
 			println mm[0]
