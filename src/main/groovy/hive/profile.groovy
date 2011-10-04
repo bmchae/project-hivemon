@@ -16,10 +16,11 @@ files = []
 files = files.sort({a,b -> a.lastModified() <=> b.lastModified()}) //.reverse()	
 
 if (args.length == 0  || args[0] != '-all') {
-	println '>>> ' + files.last()
 	files.each { f ->
-		if (f.lastModified() > System.currentTimeMillis() - 1000*60*60*24)
+		if (f.lastModified() > System.currentTimeMillis() - 1000*60*60*24) {
+	        println '>>> ' + files.last()
 			files = [f]
+		}
 	}
 } 
 

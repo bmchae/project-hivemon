@@ -1,0 +1,18 @@
+#
+# copied from $HADOOP_HOME/bin/slaves.sh
+#
+
+usage="Usage: $0 <local full path> <remote full path>"
+if [ $# -le 0 ]; then
+    echo $usage
+    exit 1
+fi
+
+export SLAVELIST="${HADOOP_HOME}/conf/slaves"
+
+for slave in `cat "$SLAVELIST" | sed "s/#.*$//;/^$/d"`; do
+    echo scp "$1" $slave:"$2"
+    scp "$1" $slave:"$2"
+done
+
+wait

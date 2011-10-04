@@ -2,7 +2,7 @@
 # copied from $HADOOP_HOME/bin/slaves.sh
 #
 
-usage="Usage: all [--config confdir] command..."
+usage="Usage: $0 command..."
 if [ $# -le 0 ]; then
     echo $usage
     exit 1
