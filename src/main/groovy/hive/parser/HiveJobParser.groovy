@@ -51,8 +51,7 @@ class HiveJobParser {
 					taskStartTime = Long.parseLong(m[0][3])
 					break
 				case ~/(?m)^TaskEnd\s+.+/ :
-					//println '~'*100
-					//println line
+					
 					def m = line =~ /(?m)^TaskEnd\s+.*TASK_NAME="(.+?)"\s+.*TASK_ID="(.+?)"\s+.*TIME="(.+?)"/
 					def mm = line =~ /TASK_HADOOP_ID="(.+?)"/
 					def mm_m = line =~ /TASK_NUM_MAPPERS="(.+?)"/
@@ -73,6 +72,16 @@ class HiveJobParser {
 							hdfsBytesWritten,
 							inputRecords,
 							outputRecords
+
+                    if (verbose < 1)
+					    break
+
+					//println '~'*100
+					line.split(',').each { kv ->
+					    println ' '*35 + kv
+					}
+					//println '~'*100
+
 				    break
 				case ~/(?m)^TaskProgress\s+.+/ :
 						

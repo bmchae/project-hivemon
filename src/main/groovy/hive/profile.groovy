@@ -15,11 +15,12 @@ files = []
 [Config.HIVE_LOG_DIR].each { dirname -> new File(dirname).eachFileMatch(~/^hive_job_log.+/) { files += it } }
 files = files.sort({a,b -> a.lastModified() <=> b.lastModified()}) //.reverse()	
 
+targetFiles = []
 if (args.length == 0  || args[0] != '-all') {
 	files.each { f ->
 		if (f.lastModified() > System.currentTimeMillis() - 1000*60*60*24) {
-	        println '>>> ' + files.last()
-			files = [f]
+	        println '>>> ' + f.getName()
+			targetFiles << f
 		}
 	}
 } 
@@ -45,8 +46,8 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 		if (k != 'hive.query.string' && k != 'mapred.job.name') {
 			if (HadoopJobConfig.map[k] != null)
 				printf "%60s * %s\n", v, k
-			else
-				printf "%60s : %s\n", v, k
+			//else
+		    //	printf "%60s : %s\n", v, k
 		}
 	}
 	
@@ -70,10 +71,12 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	//println '.' * 100
 	println plan.replaceAll(/\n\s+expr:(.*?)/, '').replaceAll(/\n\s+type:(.*?)/, '')
 	println '~' * 100
+
+	return
 }
 
 
-files.each { f ->
+targetFiles.each { f ->
 	if (!f.isDirectory() && f.getName() =~ /^hive_job_.*\.txt$/) {
 		def line = new BufferedReader(new FileReader(f)).readLine()
 		def m = line =~ /^SessionStart.*TIME="(.+?)".*/
