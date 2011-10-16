@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+SET_HIVE_WH_DIR=`hive -S -e 'set;' | grep hive.metastore.warehouse.dir | awk '{ print $1 }'`
+HIVE_WH_DIR=${SET_HIVE_WH_DIR:29}
+ 
+tableDirs=( $(hadoop fs -ls ${HIVE_WH_DIR} | grep -v Found  | awk '{ print $8 }') )
+ 
+for dir in ${tableDirs[@]}; do
+      spaceUsed=$(hadoop fs -dus $dir | awk '{ print $2 }')
+      echo "$dir    $(echo ${spaceUsed}/1024/1024 | bc) MB"
+      if [ $? -ne 0 ]; then
+         echo "ERROR: failure with hadoop command."
+         exit 1
+      fi
+done
