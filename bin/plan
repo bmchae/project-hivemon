@@ -1,1 +1,3 @@
-hive -f $1 | grep -v type: | grep -v 'outputColumnNames:' | grep -v 'sort order:'
+#hive -f $1 | grep -v type: | grep -v 'outputColumnNames:' | grep -v 'sort order:'
+
+~/projects/nexr-platform-analysis-hawk/bin/plan.sh $*
