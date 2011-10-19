@@ -16,12 +16,12 @@ echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 mon
 
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo $ hadoop fs -ls /rolling/daily/result/cdr
+echo $ hadoop fs -ls /rolling/daily/result/cdr | sort -k 6 | tail -7
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 hadoop fs -ls /rolling/daily/result/cdr | sort -k 6 | tail -7
 
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-echo $ hadoop fs -ls /user/nexr/cdr
+echo $ hadoop fs -ls /user/nexr/cdr | sort -k 6 | tail -7
 echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 hadoop fs -ls /user/nexr/cdr | sort -k 6 | tail -7
 
