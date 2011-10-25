@@ -35,6 +35,10 @@ class HiveJobParser {
 				case ~/(?m)^QueryEnd\s+.+/ :
 					def m = line =~ /(?m)^QueryEnd\s+.*QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+.+TIME="(.+?)"/
 					sqlmd5 = MD5.md5(m[0][1])
+
+                    if (m[0][1].startsWith("CREATE TEMPORARY FUNCTION"))
+						break
+
 					//if (m.size() < 1 && m[0].size() < 4)
 					//	break
 					printf '         * %s | %10s + %s | %s\n', 
