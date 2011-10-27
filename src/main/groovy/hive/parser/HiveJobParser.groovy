@@ -36,11 +36,9 @@ class HiveJobParser {
 					def m = line =~ /(?m)^QueryEnd\s+.*QUERY_STRING="(.+?)"\s+QUERY_ID="(.+?)"\s+.+TIME="(.+?)"/
 					sqlmd5 = MD5.md5(m[0][1])
 
-                    if (m[0][1].startsWith("CREATE TEMPORARY FUNCTION"))
+                    if (m[0][1].trim().startsWith("CREATE TEMPORARY FUNCTION"))
 						break
 
-					//if (m.size() < 1 && m[0].size() < 4)
-					//	break
 					printf '         * %s | %10s + %s | %s\n', 
 							new java.text.SimpleDateFormat('HH:mm:ss').format(jobStartTime),
 	                        Long.parseLong(m[0][3]) - jobStartTime,
@@ -65,6 +63,9 @@ class HiveJobParser {
 					def hdfsBytesWritten = (line =~ /FileSystemCounters\.HDFS_BYTES_WRITTEN:([0-9]+)/).size() > 0 ? (line =~ /FileSystemCounters\.HDFS_BYTES_WRITTEN:([0-9]+)/)[0][1] : ''
 					def inputRecords = (line =~ /input records:([0-9]+)/).size() > 0 ? (line =~ /input records:([0-9]+)/)[0][1] : 0
 					def outputRecords = (line =~ /output records:([0-9]+)/).size() > 0 ? (line =~ /output records:([0-9]+)/)[0][1] : 0
+
+                    if (m[0][1].endsWith('FunctionTask'))
+						break
 
 					printf '                      %10s | %s - %s %s %s, hdfs_r=%s, hdfs_w=%s, input_rec=%s, output_rec=%s\n', 
 	                        Long.parseLong(m[0][3]) - taskStartTime,
@@ -106,6 +107,8 @@ class HiveJobParser {
 						if (counterMap[mmm[1]] == null) {
 							counterMap[mmm[1]] = 0L
 						}
+
+
 						
 						printf '%s%20s = %s\n', ' '*30, Long.parseLong(mmm[2]) - counterMap[mmm[1]], mmm[1]
 						
