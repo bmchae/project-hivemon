@@ -73,19 +73,18 @@ if (args.length > 0 && args[0] =~ /^job_.+/) {
 	println '~' * 100
 
 	return
-}
-
-
-targetFiles.each { f ->
-	if (!f.isDirectory() && f.getName() =~ /^hive_job_.*\.txt$/) {
-		def line = new BufferedReader(new FileReader(f)).readLine()
-		def m = line =~ /^SessionStart.*TIME="(.+?)".*/
-		def sessionStartTime = Long.parseLong(m[0][1])
+} else {
+    targetFiles.each { f ->
+	    if (!f.isDirectory() && f.getName() =~ /^hive_job_.*\.txt$/) {
+		    def line = new BufferedReader(new FileReader(f)).readLine()
+		    def m = line =~ /^SessionStart.*TIME="(.+?)".*/
+		    def sessionStartTime = Long.parseLong(m[0][1])
 		
-		println ''
-		printf '%-19s | %10s | %-50s | \n', new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').format(new Date(f.lastModified())), 
+		    println ''
+		    printf '%-19s | %10s | %-50s | \n', new java.text.SimpleDateFormat('yyyy-MM-dd HH:mm:ss').format(new Date(f.lastModified())), 
 		                                   f.lastModified() - sessionStartTime, 
 										   f.getName()
-		new HiveJobParser().parse(f, verbose)
-	}
+		    new HiveJobParser().parse(f, verbose)
+	    }
+    }
 }
